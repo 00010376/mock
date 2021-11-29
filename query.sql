@@ -1,4 +1,14 @@
 --################### MOCK
+
+GO
+CREATE VIEW employee_per_job AS
+SELECT JobTitle, count(*) "Number of emp per job"
+FROM HumanResources.Employee
+GROUP BY JobTitle;
+GO
+
+
+
 use AdventureWorks2012
 --1
 select count(distinct JobTitle)
