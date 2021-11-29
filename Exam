@@ -1,0 +1,53 @@
+
+SELECT JobTitle, HireDate "date hired"
+from HumanResources.Employee
+order by HireDate desc
+
+2.2.
+select *
+from Production.Product
+where StandardCost between 90 and 100
+order by StandardCost desc
+
+3.
+select p.Name "Product name", p.SellStartDate "Date on sail", c.Name "Suncategory name",
+p.ListPrice, p.Color "Product color"
+from production.Product p
+join production.ProductSubcategory c on p.ProductSubcategoryID =
+c.ProductSubcategoryID
+where c.Name like '%Mountain%' and p.ListPrice between 600 and 900
+order by p.Color desc , c.Name asc
+
+4.
+select MaritalStatus, Gender, count(*) "Num of employees", avg(SickLeaveHours) "Avg seak
+leave hours"
+from HumanResources.Employee
+where BirthDate > '1980-10-10'
+group by MaritalStatus, Gender
+having avg(SickLeaveHours) > 43
+order by "Avg seak leave hours" a
+
+5.
+select p.FirstName, p.LastName
+, DATEDIFF(month, sp.ModifiedDate, getdate()) "Months till now"
+, (select avg(SalesLastYear) from Sales.SalesPerson) "Avg sales last year"
+from Sales.SalesPerson sp join [Person].[Person] p on sp.BusinessEntityID =
+p.BusinessEntityID
+where sp.Bonus > 100 and sp.SalesLastYear > (select avg(SalesLastYear) from
+Sales.SalesPerson)
+order by p.lastname desc
+
+
+7.
+select e.ModifiedDate "Business entity date modified"
+,ct.Name "Business contact type name"
+,concat (a.AddressLine1, ', ', a.PostalCode) "Full address"
+,s.Name "Store name"
+from Person.BusinessEntity e
+join person.BusinessEntityContact ec on ec.BusinessEntityID = e.BusinessEntityID
+join person.ContactType ct on ct.ContactTypeID = ec.ContactTypeID
+join person.BusinessEntityAddress ea on ea.BusinessEntityID = e.BusinessEntityID
+join person.Address a on a.AddressID = ea.AddressID
+join Sales.Store s on s.BusinessEntityID = e.BusinessEntityID
+where s.Name like '%Toy%'
+order by ct.Name asc, s.Name desc, e.ModifiedDate asc
