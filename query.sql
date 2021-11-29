@@ -1,11 +1,49 @@
 --################### MOCK
 
+
+select distinct City 
+from Person.Address
+order by City desc 
+
+--2
+
+select *
+from Sales.SalesPerson ss
+where Bonus between 2500 and 5000
+order by Bonus asc
+
+--3
+
+select th.Quantity, pp.Name "Product name", th.TransactionDate "Transaction date",
+th.ActualCost "Actual Cost", pp.Color
+from Production.TransactionHistory th
+join Production.Product pp
+on th.ProductID=pp.ProductID
+where Quantity between 5 and 8
+and pp.name like '%sport%'
+order by th.TransactionDate desc, pp.name asc
+
+
 GO
 CREATE VIEW employee_per_job AS
 SELECT JobTitle, count(*) "Number of emp per job"
 FROM HumanResources.Employee
 GROUP BY JobTitle;
 GO
+
+select emp.Gender, emp.MaritalStatus, pp.FirstName, pp.LastName,
+emp.HireDate
+from HumanResources.Employee emp
+join Person.Person pp on
+emp.BusinessEntityID = pp.BusinessEntityID
+join HumanResources.JobCandidate jc
+on jc.BusinessEntityID=pp.BusinessEntityID
+join HumanResources.EmployeeDepartmentHistory edh
+on edh.BusinessEntityID=jc.BusinessEntityID
+join HumanResources.Department dep
+on dep.DepartmentID=edh.DepartmentID
+where emp.HireDate>'2012-01-01' and DATEPART(month, emp.hiredate) in (9,5)
+order by StartDate 
 
 
 
